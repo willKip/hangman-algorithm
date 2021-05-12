@@ -8,16 +8,9 @@ letters = []
 prev_guess = ""
 most_common = ""
 
-# wordlist is all the possible words the game could pick as a puzzle. only initialized at start of program
-wordlist = []
 
-filein = open("base-words.txt", "r")
-wordlist = filein.read().lower().split("\n")
-filein.close()
-
-
-# round initialization, called at the start of each round. initializes global variables
-def initround(string):
+# round initialization, called at the start of each round. initializes global variables and parses word list
+def initround(string, wordlist):
     global refined_list, wrong_letters, letters, prev_guess, most_common
 
     refined_list = [word for word in wordlist if len(word) == len(string)]
