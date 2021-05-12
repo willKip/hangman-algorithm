@@ -14,11 +14,15 @@ prev_guess_letter = ""
 def initround(in_string, wordlist):
     global refined_list, letter_freq, wrong_letters, guessed_letters, prev_guess_word, prev_guess_letter
 
-    refined_list = [word for word in wordlist if len(word) == len(in_string)]
     letter_freq = {chr(i): 0 for i in range(ord('a'), ord('z') + 1)}
-    for word in refined_list:
-        for char in word:
-            letter_freq[char] += 1
+
+    refined_list.clear()
+
+    for word in wordlist:
+        if len(word) == len(in_string):
+            for char in word:
+                letter_freq[char] += 1
+            refined_list.append(word)
 
     wrong_letters.clear()
     guessed_letters.clear()
@@ -33,16 +37,10 @@ def check_word(guess, word):
     valid_word = True
 
     # if the word has a wrong letter, it cannot be a valid guess
-    for char in word:
-        if char in wrong_letters:
+    for j in range(len(word)):
+        if (guess[j] in wrong_letters) or (guess[j] != "_" and guess[j] != word[j]):
             valid_word = False
             break
-
-    if valid_word:
-        # check if char positions of guess line up with the given word
-        for j in range(len(word)):
-            if guess[j] != "_" and guess[j] != word[j]:
-                valid_word = False
 
     if not valid_word:
         for c in word:
@@ -67,8 +65,8 @@ def makeguess(in_string):
     if in_string != prev_guess_word:
         if len(refined_list) > 1:
             refined_list[:] = [word for word in refined_list if check_word(in_string, word)]
+
     else:
-        prev_guess_word = in_string
         wrong_letters.append(prev_guess_letter)
     guessed_letters.append(prev_guess_letter)
 
