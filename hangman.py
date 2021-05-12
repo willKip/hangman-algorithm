@@ -5,7 +5,7 @@ games_played = 0
 wins = 0
 wordlist = []
 
-numgames = 30
+numgames = 10
 guesses = 6
 verbose = False
 
